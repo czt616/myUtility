@@ -32,7 +32,7 @@ def gene_indri_query_file(file_path,queries,index,count,run_id="Infolab"):
     for qid in queries:
         query_body+=query_template.substitute(qid=qid,q_string=queries[qid].lower())
 
-     with codecs.open(file_path, 'w','utf-8') as f:
+    with codecs.open(file_path, 'w','utf-8') as f:
         f.write(structure_template.substitute(query_body=query_body,index=index,run_id=run_id,count=str(count)))
 
 
