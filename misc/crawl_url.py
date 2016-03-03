@@ -35,11 +35,11 @@ def crawl_url(end_point,params={}):
         print "other exceptions"
         print e
         url = end_point
-          params_list = []
-          for p in params:
-            params_list.append(p+"="+params[p])
-          url += "&".join(params_list)
-          url = urllib.unquote(url)
+        params_list = []
+        for p in params:
+          params_list.append(p+"="+params[p])
+        url += "&".join(params_list)
+        url = urllib.unquote(url)
         return url, None
     else:
         return None,r.text
