@@ -6,7 +6,6 @@ from goose import Goose, Configuration
 from myStemmer import pstem as stem
 from nltk.tokenize import sent_tokenize
 import lxml
-from nltk.tokenize import sent_tokenize
 import re
 
 
