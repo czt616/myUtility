@@ -5,6 +5,10 @@ from wikiexceptions import *
 import json
 
 
+
+
+
+
 class Wikibase(object):
     """
     Wikidata class
@@ -19,5 +23,12 @@ class Wikibase(object):
             return content
         else:
             raise ApiCallException
+
+    @staticmethod
+    def get_default_configuration():
+        _PARA = {
+            'format':'json'
+        }
+        return _PARA
 
 

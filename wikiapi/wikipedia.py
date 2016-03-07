@@ -16,7 +16,7 @@ class Wikipedia(Wikibase):
 
     def get_entity_name(self,title,limit = None):
         print "for name %s" %title
-        params = get_default_configuration()
+        params = self.get_default_configuration()
         params['action'] = 'opensearch'
         params['search'] = title
         params['namespace'] = 0
