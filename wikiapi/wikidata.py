@@ -34,7 +34,7 @@ class Wikidata(Wikibase):
                 entity['eid'] = 'Q'+eid
                 entity['description'] = entities[eid]['descriptions']['en']['value']
                 entity['class_id'] = {}
-                classes = entities[eid]['clams']['P31'] #class info
+                classes = entities[eid]['claims']['P31'] #class info
                 cids = []
                 for c in classes:
                     cid = 'Q'+c['mainsnak']['datavalue']['value']['numeric-id']
