@@ -20,10 +20,10 @@ class Wikibase(object):
 
     def call_api(self,params):
         url, content = crawl_url(self._END_POINT, params)
-        if url is not None:
+        if url is None:
             return content
         else:
-            raise ApiCallException
+            raise ApiCallException(url)
 
     @staticmethod
     def get_default_configuration():
