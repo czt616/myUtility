@@ -1,6 +1,7 @@
 """
 base wiki class
 """
+from ..misc import crawl_url
 from wikiexceptions import *
 import json
 
