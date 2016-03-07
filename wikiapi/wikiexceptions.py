@@ -2,7 +2,7 @@
 define Exceptions
 """
 
-def ApiCallException(Exception):
+class ApiCallException(Exception):
         def __init__(self,url):
             self.url = url
         def __str__(self):
@@ -11,7 +11,7 @@ def ApiCallException(Exception):
             print error_message
             return repr(error_message)
 
-def ResultErrorException(Exception):
+class ResultErrorException(Exception):
         def __init__(self,content):
             self.content = content
         def __str__(self):
