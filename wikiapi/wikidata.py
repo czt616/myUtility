@@ -31,13 +31,13 @@ class Wikidata(Wikibase):
                 raise ResultErrorException(content)
             else:
                 eid = entities.keys()[0] #entity id
-                entity['eid'] = 'Q'+eid
+                entity['eid'] = 'Q'+str(eid)
                 entity['description'] = entities[eid]['descriptions']['en']['value']
                 entity['class_id'] = {}
                 classes = entities[eid]['claims']['P31'] #class info
                 cids = []
                 for c in classes:
-                    cid = 'Q'+c['mainsnak']['datavalue']['value']['numeric-id']
+                    cid = 'Q'+str(c['mainsnak']['datavalue']['value']['numeric-id'])
                     cids.append(cid)
                 entity["class_info"] = get_class_info(cids)
 
