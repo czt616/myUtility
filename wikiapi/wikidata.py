@@ -52,7 +52,7 @@ class Wikidata(Wikibase):
     def get_class_info(self,cids):
         class_info = {}
         params = self.get_default_configuration()
-        params['action'] = 'wbgetebtities'
+        params['action'] = 'wbgetentities'
         params['ids'] = "|".join(cids)
         params['prors'] = 'labels'
         content = self.call_api(params)
