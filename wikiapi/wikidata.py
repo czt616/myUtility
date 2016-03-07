@@ -33,7 +33,6 @@ class Wikidata(Wikibase):
                 eid = entities.keys()[0] #entity id
                 entity['eid'] = 'Q'+str(eid)
                 entity['description'] = entities[eid]['descriptions']['en']['value']
-                entity['class_id'] = {}
                 classes = entities[eid]['claims']['P31'] #class info
                 cids = []
                 for c in classes:
