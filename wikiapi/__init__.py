@@ -1,6 +1,6 @@
 from ..misc import crawl_url
 from wikipedia import Wikipedia
-from wikipedia import Wikidata
+from wikidata import Wikidata
 
 
 def get_default_configuration():
