@@ -17,7 +17,7 @@ class Wikidata(Wikibase):
     def get_entity_info_by_name(self,name):
         entity = {}
         params = self.get_default_configuration()
-        params['action'] = 'wbgetebtities'
+        params['action'] = 'wbgetentities'
         params['sites'] = 'enwiki'
         params['titles'] = name
         params['normalize'] = 1
