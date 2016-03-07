@@ -39,7 +39,7 @@ class Wikidata(Wikibase):
                 for c in classes:
                     cid = 'Q'+str(c['mainsnak']['datavalue']['value']['numeric-id'])
                     cids.append(cid)
-                entity["class_info"] = get_class_info(cids)
+                entity["class_info"] = self.get_class_info(cids)
 
         except Exception as e:
             print e
