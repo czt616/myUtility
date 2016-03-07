@@ -2,7 +2,7 @@
 get data from Wikidata api
 """
 
-from wikibase import Wikibase
+from wikibase import *
 
 class Wikidata(Wikibase):
     """
