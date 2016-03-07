@@ -49,7 +49,7 @@ class Wikidata(Wikibase):
             return entity
 
 
-    def get_class_description(self,cids):
+    def get_class_info(self,cids):
         class_info = {}
         params = self.get_default_configuration()
         params['action'] = 'wbgetebtities'
