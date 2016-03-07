@@ -5,7 +5,7 @@ from wikipedia import Wikidata
 
 def get_default_configuration():
     _PARA = {
-        'format' = 'json'
+        'format':'json'
     }
     return _PARA
 
