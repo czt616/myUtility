@@ -61,21 +61,22 @@ class Wikidata(Wikibase):
         params = self.get_default_configuration()
         params['action'] = 'wbgetentities'
         params['ids'] = "|".join(cids)
-        params['prors'] = 'labels'
+        params['props'] = 'labels'
         content = self.call_api(params)
         try:
             result = json.loads(content)
         except ValueError:
             raise ResultErrorException(content,"mal-formatted")
         else:
-            try:
-                for cid in cids:
+            for cid in cids:
+                try:
                     class_info[cid] = result['entities'][cid]['labels']['en']['value']
 
-            except Exception as e:
-                print e
-                raise ResultErrorException(content,"unexpected result structure")
+                except KeyError:
+                    continue
             else:
+                if len(class_info) ==0:
+                    class_info = None
                 return class_info
 
 
