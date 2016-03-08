@@ -25,27 +25,35 @@ class Wikidata(Wikibase):
         content = self.call_api(params)
         try:
             result = json.loads(content)
-            entities = result['entities']
-            if len(entities) != 1:
-                print "More than one entities have the same name!"
-                raise ResultErrorException(content)
-            else:
-                eid = entities.keys()[0] #entity id
-                entity['eid'] = 'Q'+str(eid)
-                entity['description'] = entities[eid]['descriptions']['en']['value']
-                classes = entities[eid]['claims']['P31'] #class info
-                cids = []
-                for c in classes:
-                    cid = 'Q'+str(c['mainsnak']['datavalue']['value']['numeric-id'])
-                    cids.append(cid)
-                entity["class_info"] = self.get_class_info(cids)
-
-        except Exception as e:
-            print e
-            raise ResultErrorException(content)
-
+        except ValueError:
+            raise ResultErrorException(content,"mal-formatted")
         else:
-            return entity
+            try:
+                entities = result['entities']
+            except KeyError:
+                raise ResultErrorException(content,"unexpected result structure")
+            else:
+                if len(entities) != 1:
+                    raise ResultErrorException(content,"More than one entities have the same name!")
+                else:
+                    eid = entities.keys()[0] #entity id
+                    entity['eid'] = 'Q'+str(eid)
+                    try:
+                        entity['description'] = entities[eid]['descriptions']['en']['value']
+                    except KeyError:
+                        # if no description, put empty string in it
+                        entity['description'] = ""
+                    try:   
+                        classes = entities[eid]['claims']['P31'] #class info
+                    except KeyError:
+                        raise NoClassException
+                    else:
+                        cids = []
+                        for c in classes:
+                            cid = 'Q'+str(c['mainsnak']['datavalue']['value']['numeric-id'])
+                            cids.append(cid)
+                        entity["class_info"] = self.get_class_info(cids)
+                        return entity
 
 
     def get_class_info(self,cids):

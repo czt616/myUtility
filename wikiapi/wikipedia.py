@@ -25,14 +25,17 @@ class Wikipedia(Wikibase):
             params['limit'] = limit
         content =  self.call_api(params)
         try:
-            result = json.loads(content)
-            entity_name = result[1][0]
-        except Exception as e:
-            print e
-            raise ResultErrorException(content)
+            result = json.loads(content)            
+        except ValueError:
+            raise ResultErrorException(content,"mal-formatted")
         else:
-            print "found entity %s" %entity_name
-            return entity_name
+            try:
+                entity_name = result[1][0]
+            except KeyError:
+                raise ResultErrorException(content,"unexpected result structure")
+            else:
+                print "found entity %s" %entity_name
+                return entity_name
 
 
 
