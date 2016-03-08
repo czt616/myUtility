@@ -22,8 +22,10 @@ class ResultErrorException(Exception):
             return error_message
 
 class NoClassException(Exception):
-        def __init__(self,entity):
+        def __init__(self,content,entity):
+            self.content = content
             self.entity = entity
         def __str__(self):
             error_message = "entity %s does not have class!\n" %self.entity
+            error_message += "the returned result is:\n%s" %self.content
             return error_message

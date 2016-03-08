@@ -46,7 +46,7 @@ class Wikidata(Wikibase):
                     try:   
                         classes = entities[eid]['claims']['P31'] #class info
                     except KeyError:
-                        raise NoClassException(name)
+                        raise NoClassException(content,name)
                     else:
                         cids = []
                         for c in classes:
