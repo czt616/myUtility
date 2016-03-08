@@ -65,14 +65,18 @@ class Wikidata(Wikibase):
         content = self.call_api(params)
         try:
             result = json.loads(content)
-            for cid in cids:
-                class_info[cid] = result['entities'][cid]['labels']['en']['value']
-
-        except Exception as e:
-            print e
-            raise ResultErrorException(content)
+        except ValueError:
+            raise ResultErrorException(content,"mal-formatted")
         else:
-            return class_info
+            try:
+                for cid in cids:
+                    class_info[cid] = result['entities'][cid]['labels']['en']['value']
+
+            except Exception as e:
+                print e
+                raise ResultErrorException(content,"unexpected result structure")
+            else:
+                return class_info
 
 
 
