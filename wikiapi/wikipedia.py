@@ -31,7 +31,7 @@ class Wikipedia(Wikibase):
         else:
             try:
                 entity_name = result[1][0]
-            except KeyError:
+            except IndexError:
                 raise ResultErrorException(content,"unexpected result structure")
             else:
                 print "found entity %s" %entity_name
