@@ -1,4 +1,5 @@
 import misc
 import parser
 import wikiapi
-__all__ = ["parser","misc",'wikiapi']
+import rest
+__all__ = ["parser","misc",'wikiapi','rest']
