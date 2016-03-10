@@ -18,8 +18,9 @@ class Rest(object):
     def __init__(self):
         self._END_POINT = ""
 
-    def call_api(self,params,end_point=self._END_POINT):
-
+    def call_api(self,params,end_point=None):
+        if not end_point:
+            end_point = self._END_POINT
         url, content = crawl_url(end_point, params)
         if url is None:
             return content
