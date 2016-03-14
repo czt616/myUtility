@@ -3,14 +3,12 @@ parse an HTML file to clean text or sentences
 """
 
 from goose import Goose, Configuration
-from myStemmer import pstem as stem
+from ..misc import do_stem
 from nltk.tokenize import sent_tokenize
 import lxml
 import re
 
 
-def do_stem(matchobj):
-    return stem(matchobj.group(0))
 
 class Html_parser(object):
     """
