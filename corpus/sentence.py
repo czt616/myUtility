@@ -7,4 +7,3 @@ import re
 from corpus import Text
 
 class Sentence(Text):
-    
