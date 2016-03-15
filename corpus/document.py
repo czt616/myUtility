@@ -19,14 +19,16 @@ class Document(Text):
                 self._text = text
             self._did = did
             if sentences:
+                self._sentences = []
                 for sentence in sentences:
                     self.add_sentence(sentence)
         else:
             raise  TooManyInput
 
     def split_sentences(self):
-        for sentence in sent_tokenize(self.text):
-            self.add_sentence(sentence)
+        if len(self._sentences) != 0:
+            for sentence in sent_tokenize(self.text):
+                self.add_sentence(sentence)
 
 
 
