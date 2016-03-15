@@ -26,9 +26,8 @@ class Document(Text):
             raise  TooManyInput
 
     def split_sentences(self):
-        if len(self._sentences) != 0:
-            for sentence in sent_tokenize(self.text):
-                self.add_sentence(sentence)
+        for sentence in sent_tokenize(self.text):
+            self.add_sentence(sentence)
 
 
 
@@ -42,6 +41,7 @@ class Document(Text):
         try:
             return self._sentences
         except AttributeError:
+            self._sentences = []
             self.split_sentences()
             return self._sentences
     
