@@ -18,7 +18,7 @@ class Text(object):
     @property
     def stemmed_text(self):
         try:
-            return self._stemmed_text:
+            return self._stemmed_text
         except AttributeError:
             self._stemmed_text = re.sub("\w+",do_stem, self._text.lower())
             return self._stemmed_text
