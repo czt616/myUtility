@@ -17,9 +17,11 @@ class Text(object):
     
     @property
     def stemmed_text(self):
-        if not self._stemmed_text:
+        try:
+            return self._stemmed_text:
+        except AttributeError:
             self._stemmed_text = re.sub("\w+",do_stem, self._text.lower())
-        return self._stemmed_text
+            return self._stemmed_text
 
     # @stemmed_text.setter
     # def stemmed_text(self,text):
@@ -27,9 +29,11 @@ class Text(object):
 
     @property
     def raw_model(self):
-        if not self._raw_model:
+        try :
+            return self._raw_model
+        except AttributeError:
             self._raw_model = Model(text_string=self.text,need_stem = False)
-        return self._raw_model
+            return self._raw_model
 
     # @model.setter
     # def model(self, text_list=None, text_dict=None):
@@ -41,8 +45,17 @@ class Text(object):
 
     @property
     def stemmed_model(self):
-        if not self._stemmed_model:
+        try:
+            return self._stemmed_model
+        except AttributeError:
             self._stemmed_model = Model(text_string=self._stemmed_text,need_stem = True, input_stemmed=True)
-        return self._stemmed_model
+            return self._stemmed_model
     
-
+    @property
+    def length(self):
+        try:
+            return self._length
+        except AttributeError:
+            self._length = len(re.findall("\w+",self._text))
+            return self._length
+    

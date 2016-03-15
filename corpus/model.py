@@ -15,7 +15,8 @@ class Model(object):
         self._need_stem = need_stem
         self._model = {}
         self._normalized = False
-        self.update(text_string=text_string, text_list=text_list, text_dict=text_dict,input_stemmed=input_stemmed)
+        if text_string or text_list or text_dict:
+            self.update(text_string=text_string, text_list=text_list, text_dict=text_dict,input_stemmed=input_stemmed)
 
 
 
