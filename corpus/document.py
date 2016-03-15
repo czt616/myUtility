@@ -3,7 +3,8 @@ document class
 """
 
 import codecs
-from corpus import Sentence,Text
+from sentence import Sentence
+from text import Text
 from corpusexceptions import *
 from nltk.tokenize import sent_tokenize
 
@@ -17,7 +18,6 @@ class Document(Text):
             elif text:
                 self._text = text
             self._did = did
-            self._sentences = []
             if sentences:
                 for sentence in sentences:
                     self.add_sentence(sentence)
