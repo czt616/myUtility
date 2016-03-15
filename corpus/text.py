@@ -48,7 +48,7 @@ class Text(object):
         try:
             return self._stemmed_model
         except AttributeError:
-            self._stemmed_model = Model(text_string=self._stemmed_text,need_stem = True, input_stemmed=True)
+            self._stemmed_model = Model(text_string=self.stemmed_text,need_stem = True, input_stemmed=True)
             return self._stemmed_model
     
     @property
