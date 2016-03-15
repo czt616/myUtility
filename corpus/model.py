@@ -11,8 +11,10 @@ import math
 class Model(object):
 
 
-    def __init__(self,text_string=None, text_list=None, text_dict=None, need_stem = False, input_stemmed = False):
+    def __init__(self,no_stopwords,text_string=None, text_list=None, text_dict=None,
+        need_stem = False, input_stemmed = False):
         self._need_stem = need_stem
+        self._no_stopwords = no_stopwords
         self._model = {}
         self._normalized = False
         if text_string or text_list or text_dict:
@@ -26,12 +28,14 @@ class Model(object):
 
         elif self._need_stem != other._need_stem:
             raise ValueError(" Two model does not agree with stemming")
+        elif self._no_stopwords != other._no_stopwords:
+            raise ValueError(" Two model does not agree with stopword removal")
         else:
             if self._need_stem:
-                new_obj = Model(text_dict=self.model,need_stem=self._need_stem,input_stemmed=True)
+                new_obj = Model(self._no_stopwords,text_dict=self.model,need_stem=self._need_stem,input_stemmed=True)
                 new_obj.update(text_dict = other.model, input_stemmed=True)
             else:
-                new_obj = Model(text_dict=self.model,need_stem=self._need_stem)
+                new_obj = Model(self._no_stopwords,text_dict=self.model,need_stem=self._need_stem)
                 new_obj.update(text_dict = other.model)
         return new_obj
 
@@ -41,9 +45,9 @@ class Model(object):
             raise TypeError("type %s not supported" %type(other))
         else:
             if self._need_stem:
-                new_obj = Model(text_dict=self.model,need_stem=self._need_stem,input_stemmed=True)
+                new_obj = Model(self._no_stopwords,text_dict=self.model,need_stem=self._need_stem,input_stemmed=True)
             else:
-                new_obj = Model(text_dict=self.model,need_stem=self._need_stem)
+                new_obj = Model(self._no_stopwords,text_dict=self.model,need_stem=self._need_stem)
             for w in new_obj._model:
                 new_obj._model[w] *= other
         return new_obj
