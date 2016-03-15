@@ -142,6 +142,8 @@ class Model(object):
             raise TypeError("unsupported operand type(s) for cosine similarity: '%s' and '%s'" %type(self),type(other))
         elif self._need_stem != other._need_stem:
             raise ValueError(" Two model does not agree with stemming")
+        elif self._no_stopwords != other._no_stopwords:
+            raise ValueError(" Two model does not agree with stopword removal")
         else:
             self.normalize()
             other.normalize()
