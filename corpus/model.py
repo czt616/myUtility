@@ -14,13 +14,14 @@ class Model(object):
     def __init__(self,text_string=None, text_list=None, text_dict=None, need_stem = False, input_stemmed = False):
         self._need_stem = need_stem
         self._model = {}
+        self._normalized = False
         self.update(text_string=text_string, text_list=text_list, text_dict=text_dict,input_stemmed=input_stemmed)
 
 
 
     def __add__(self, other):
         if not isinstance(other, Model):
-            raise TypeError("unsupported operand type(s) for -: '%s' and '%s'" %type(self),type(other))
+            raise TypeError("unsupported operand type(s) for +: '%s' and '%s'" %type(self),type(other))
 
         elif self._need_stem != other._need_stem:
             raise ValueError(" Two model does not agree with stemming")
@@ -50,12 +51,14 @@ class Model(object):
     def __rmul__(self,other):
         return self*other
 
+    def __div__(self,other):
+        return self*(1.0/other)
 
     @property
     def model(self):
         return self._model
     
-
+    
     
 
     def update_model(self, text_string=None, text_list=None, text_dict=None):
@@ -129,6 +132,20 @@ class Model(object):
             self.update_model(text_string=text_string, text_list=text_list, text_dict=text_dict)
 
 
+    def cosine_sim(self,other):
+        if not isinstance(other, Model):
+            raise TypeError("unsupported operand type(s) for cosine similarity: '%s' and '%s'" %type(self),type(other))
+        elif self._need_stem != other._need_stem:
+            raise ValueError(" Two model does not agree with stemming")
+        else:
+            self.normalize()
+            other.normalize()
+            dis = 0
+            for w in self.model:
+                if w in other.model:
+                    dis += self.mode[w] * other.model[w]
+        return dis
+
 
     @staticmethod
     def validate_input(text_string,text_list,text_dict):
@@ -144,13 +161,15 @@ class Model(object):
 
 
 
-    def normalize(self):   
-        values = self._model.values()
-        total = 0.0
-        for v in values:
-            total += v*v
+    def normalize(self): 
+        if not self._normalized:  
+            values = self._model.values()
+            total = 0.0
+            for v in values:
+                total += v*v
 
-        total = math.sqrt(total)
+            total = math.sqrt(total)
 
-        for w in self._model:
-            self._model /= 1.0*total
+            for w in self._model:
+                self._model /= 1.0*total
+            self._normalized = True
