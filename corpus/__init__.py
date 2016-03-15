@@ -1,12 +1,13 @@
 from document import Document
 from text import Text
 from sentence import Sentence
-from model import update_model,update_stemmed_model
+from model import Model
+import corpusexceptions
 
 __all__ = [
     "Document",
     "Sentence",
     "Text",
-    "update_model",
-    "update_stemmed_model",
+    "Model",
+    "corpusexceptions",
 ]
