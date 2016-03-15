@@ -6,6 +6,7 @@ Text class
 import re
 import warnings
 from model import Model
+from ..misc import do_stem
 
 class Text(object):
     def __init__(self,text):
