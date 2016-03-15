@@ -69,7 +69,7 @@ class Model(object):
         if text_string:
             for w in re.findall("\w+",text_string.lower()):
                 if w not in self._model:
-                   self._ model[w] = 0
+                   self._model[w] = 0
                 self._model[w] += 1
 
         if text_list:
