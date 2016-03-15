@@ -4,7 +4,7 @@ Sentence class
 
 from ..misc import do_stem
 import re
-from corpus import Text
+from text import Text
 
 class Sentence(Text):
     """sentence class"""
