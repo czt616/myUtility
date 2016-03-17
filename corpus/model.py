@@ -106,7 +106,7 @@ class Model(object):
             for w in text_list:
                 if not input_stemmed:
                     w = stem(w)
-                if w not in model:
+                if w not in self._model:
                     self._model[w] = 0
                 self._model[w] += 1
 
@@ -115,7 +115,7 @@ class Model(object):
             for w in text_dict:
                 if not input_stemmed:
                     w = stem(w)
-                if w not in model:
+                if w not in self._model:
                     self._model[w] = 0
                 self._model[w] += text_dict[w] 
 
@@ -148,9 +148,9 @@ class Model(object):
             self.normalize()
             other.normalize()
             dis = 0
-            for w in self.model:
+            for w in self._model:
                 if w in other.model:
-                    dis += self.mode[w] * other.model[w]
+                    dis += self._model[w] * other.model[w]
         return dis
 
 
