@@ -27,7 +27,7 @@ def do_stem(matchobj):
 
 
 class Stopword_Handler(object):
-    def get_stopwords(self,name=None):
+    def __init__(self,name=None):
         if not name:
             self.name = os.path.join(DATA_DIR,'stopwords.json')
         self.stopwords = json.load(open(self.name))
