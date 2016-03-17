@@ -7,6 +7,7 @@ except ImportError:
 from myStemmer import pstem as stem
 import re
 import json
+import os
 
 
 DATA_DIR = resource_filename('myUtility.misc','data')
