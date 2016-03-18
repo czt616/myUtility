@@ -66,7 +66,7 @@ class Model(object):
     
     
 
-    def update_model(self, text_string=None, text_list=None, text_dict=None):
+    def __update_model(self, text_string=None, text_list=None, text_dict=None):
         if not self.validate_input(text_string,text_list,text_dict):
             raise  TooManyInput
 
@@ -87,10 +87,12 @@ class Model(object):
             for w in text_dict:
                 if w not in self._model:
                     self._model[w] = 0
-                self._model[w] += text_dict[w] 
+                self._model[w] += text_dict[w]
+
+        self._normalized = False
 
 
-    def update_stemmed_model(self, text_string=None, text_list=None, text_dict=None,input_stemmed=False):
+    def __update_stemmed_model(self, text_string=None, text_list=None, text_dict=None,input_stemmed=False):
         if not self.validate_input(text_string,text_list,text_dict):
             raise  TooManyInput
 
@@ -127,14 +129,14 @@ class Model(object):
 
 
         if self._need_stem:
-            self.update_stemmed_model(text_string=text_string
+            self.__update_stemmed_model(text_string=text_string
                 , text_list=text_list, text_dict=text_dict,input_stemmed=input_stemmed)
 
         elif input_stemmed:
             raise ValueError("cannot use stemmed input when the model is not stemmed model!\n")
 
         else:
-            self.update_model(text_string=text_string, text_list=text_list, text_dict=text_dict)
+            self.__update_model(text_string=text_string, text_list=text_list, text_dict=text_dict)
 
 
     def cosine_sim(self,other):
@@ -178,5 +180,5 @@ class Model(object):
             total = math.sqrt(total)
 
             for w in self._model:
-                self._model /= 1.0*total
+                self._model[w] /= 1.0*total
             self._normalized = True
