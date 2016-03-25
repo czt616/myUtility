@@ -141,7 +141,7 @@ class Model(object):
 
     def cosine_sim(self,other):
         if not isinstance(other, Model):
-            raise TypeError("unsupported operand type(s) for cosine similarity: '%s' and '%s'" %type(self),type(other))
+            raise TypeError("unsupported operand type(s) for cosine similarity: '%s' and '%s'" %(type(self),type(other))
         elif self._need_stem != other._need_stem:
             raise ValueError(" Two model does not agree with stemming")
         elif self._no_stopwords != other._no_stopwords:
