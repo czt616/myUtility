@@ -37,7 +37,7 @@ def crawl_url(end_point,params={}):
         url = end_point
         params_list = []
         for p in params:
-          params_list.append(p+"="+params[p])
+          params_list.append(p+"="+str(params[p]))
         url += "&".join(params_list)
         url = urllib.unquote(url)
         return url, None
