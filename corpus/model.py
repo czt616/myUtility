@@ -107,7 +107,7 @@ class Model(object):
         if text_list:
             for w in text_list:
                 if not input_stemmed:
-                    w = stem(w)
+                    w = stem(w.lower())
                 if w not in self._model:
                     self._model[w] = 0
                 self._model[w] += 1
@@ -116,7 +116,7 @@ class Model(object):
         if text_dict:
             for w in text_dict:
                 if not input_stemmed:
-                    w = stem(w)
+                    w = stem(w.lower())
                 if w not in self._model:
                     self._model[w] = 0
                 self._model[w] += text_dict[w] 
