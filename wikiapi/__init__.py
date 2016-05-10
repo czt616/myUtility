@@ -79,7 +79,7 @@ def get_cates(entitiy_input):
         if type(entitiy_input) == str:
             return get_cate_for_entity_iterable([entitiy_input],wikipedia_caller,wikidata_caller)
         elif input_type == dict:
-            raise TypeError("unsupported type %s" %(input_type)
+            raise TypeError("unsupported type %s" %(input_type) )
         else:
             return get_cate_for_entity_iterable(entitiy_input,wikipedia_caller,wikidata_caller)
 
