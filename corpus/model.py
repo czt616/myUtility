@@ -130,9 +130,13 @@ class Model(object):
             for w in text_dict:
                 if not input_stemmed:
                     stemmed_w = stem(w.lower())
+                    self._model[stemmed_w] += text_dict[w] 
                 #if w not in self._model:
                 #    self._model[w] = 0
-                self._model[stemmed_w] += text_dict[w] 
+                else:
+                    self._model[w] += text_dict[w] 
+
+                
 
         self._normalized = False
 
