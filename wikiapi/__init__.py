@@ -84,7 +84,7 @@ def get_cates(entitiy_input):
             return get_cate_for_entity_iterable(entitiy_input,wikipedia_caller,wikidata_caller)
 
     else:
-        raise TypeError("unsupported type %s" %(input_type)
+        raise TypeError("unsupported type %s" %(input_type) )
 
 
 __all__ = ['Wikipedia', 'Wikidata', 'wikiexceptions','get_cates']
