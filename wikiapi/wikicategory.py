@@ -9,7 +9,7 @@ class WikiCategory(object):
     """
     the class used to find categories for entities
     """
-    def  __init__():
+    def  __init__(self):
         self.wikipedia_caller = Wikipedia()
         self.wikidata_caller = Wikidata()
         self._cate_info = {}
