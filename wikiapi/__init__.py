@@ -2,7 +2,7 @@
 from wikipedia import Wikipedia
 from wikidata import Wikidata
 import wikiexceptions 
-from collectons import Iterable
+from collections import Iterable
 
 def get_single_entity_cate(entity,wikipedia_caller,wikidata_caller):
     """
