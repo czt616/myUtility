@@ -47,7 +47,7 @@ class WikiCategory(object):
 
         else:
             for cid in entity_info['class_info']:
-                self._cate_info[entity].append(entity_info['class_info'])
+                self._cate_info[entity].append(entity_info['class_info'][cid])
 
 
     def _get_cate_for_entity_iterable(self,entity_iterable):
