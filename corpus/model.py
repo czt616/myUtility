@@ -121,7 +121,7 @@ class Model(object):
             #         self._model[w] = 0
             #     self._model[w] += 1
             if not input_stemmed:
-                temp_list = map(stem,text_list)
+                text_list = map(stem,text_list)
 
             self._model.update(text_list)
 
@@ -129,10 +129,10 @@ class Model(object):
         if text_dict:
             for w in text_dict:
                 if not input_stemmed:
-                    w = stem(w.lower())
+                    stemmed_w = stem(w.lower())
                 #if w not in self._model:
                 #    self._model[w] = 0
-                self._model[w] += text_dict[w] 
+                self._model[stemmed_w] += text_dict[w] 
 
         self._normalized = False
 
