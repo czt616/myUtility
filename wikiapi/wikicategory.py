@@ -64,7 +64,7 @@ class WikiCategory(object):
         """
 
         for entity in entity_iterable:
-            result =  _get_single_entity_cate(entity)
+            self._get_single_entity_cate(entity)
             time.sleep(5)
 
     
