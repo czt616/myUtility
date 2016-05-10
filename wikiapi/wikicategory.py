@@ -85,7 +85,7 @@ class WikiCategory(object):
         input_type = type(entitiy_input)
         if isinstance(entitiy_input,Iterable):
             if type(entitiy_input) == str:
-                self._get_single_entity_cate(entity)
+                self._get_single_entity_cate(entitiy_input)
             elif input_type == dict:
                 raise TypeError("unsupported type %s" %(input_type) )
             else:
