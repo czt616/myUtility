@@ -7,6 +7,7 @@ from myStemmer import pstem as stem
 from ..misc import do_stem
 from corpusexceptions import *
 import math
+from collections import Counter
 
 class Model(object):
 
@@ -15,7 +16,7 @@ class Model(object):
         need_stem = False, input_stemmed = False):
         self._need_stem = need_stem
         self._no_stopwords = no_stopwords
-        self._model = {}
+        self._model = Counter()
         self._normalized = False
         if text_string or text_list or text_dict:
             self.update(text_string=text_string, text_list=text_list, text_dict=text_dict,input_stemmed=input_stemmed)
@@ -67,59 +68,73 @@ class Model(object):
     
 
     def __update_model(self, text_string=None, text_list=None, text_dict=None):
-        if not self.validate_input(text_string,text_list,text_dict):
-            raise  TooManyInput
+        #if not self.validate_input(text_string,text_list,text_dict):
+        #    raise  TooManyInput
 
         if text_string:
-            for w in re.findall("\w+",text_string.lower()):
-                if w not in self._model:
-                   self._model[w] = 0
-                self._model[w] += 1
+            #for w in re.findall("\w+",text_string.lower()):
+            #    if w not in self._model:
+            #       self._model[w] = 0
+            #    self._model[w] += 1
+            self._model.update(re.findall("\w+",text_string.lower()))
 
         if text_list:
-            for w in text_list:
-                if w not in self._model:
-                    self._model[w] = 0
-                self._model[w] += 1
+            self._model.update(text_list)
+            #for w in text_list:
+            #    if w not in self._model:
+            #        self._model[w] = 0
+            #    self._model[w] += 1
 
 
         if text_dict:
-            for w in text_dict:
-                if w not in self._model:
-                    self._model[w] = 0
-                self._model[w] += text_dict[w]
+            # for w in text_dict:
+            #     if w not in self._model:
+            #         self._model[w] = 0
+            #     self._model[w] += text_dict[w]
+            self._model.update(text_dict)
 
         self._normalized = False
 
 
     def __update_stemmed_model(self, text_string=None, text_list=None, text_dict=None,input_stemmed=False):
-        if not self.validate_input(text_string,text_list,text_dict):
-            raise  TooManyInput
+        #if not self.validate_input(text_string,text_list,text_dict):
+        #    raise  TooManyInput
 
         if text_string:
-            for w in re.findall("\w+",text_string.lower()) :
-                if not input_stemmed:
-                    w = stem(w)
-                if w not in self._model:
-                    self._model[w] = 0
-                self._model[w] += 1
+            # for w in re.findall("\w+",text_string.lower()) :
+            #     if not input_stemmed:
+            #         w = stem(w)
+            #     if w not in self._model:
+            #         self._model[w] = 0
+            #     self._model[w] += 1
+            temp_list = re.findall("\w+",text_string.lower())
+            if not input_stemmed:
+                temp_list = map(stem,temp_list)
+
+            self._model.update(temp_list)
 
         if text_list:
-            for w in text_list:
-                if not input_stemmed:
-                    w = stem(w.lower())
-                if w not in self._model:
-                    self._model[w] = 0
-                self._model[w] += 1
+            # for w in text_list:
+            #     if not input_stemmed:
+            #         w = stem(w.lower())
+            #     if w not in self._model:
+            #         self._model[w] = 0
+            #     self._model[w] += 1
+            if not input_stemmed:
+                temp_list = map(stem,text_list)
+
+            self._model.update(text_list)
 
 
         if text_dict:
             for w in text_dict:
                 if not input_stemmed:
                     w = stem(w.lower())
-                if w not in self._model:
-                    self._model[w] = 0
+                #if w not in self._model:
+                #    self._model[w] = 0
                 self._model[w] += text_dict[w] 
+
+        self._normalized = False
 
 
 
