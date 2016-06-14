@@ -73,7 +73,8 @@ def gene_indri_index_para_file(corpora,file_path,index_path,memory='2G',stemmer=
 
 
 
-def gene_indri_text_file(file_path,texts):
+def gene_indri_text_file(file_path,texts,extra_fields=None,
+        field_data=None):
     
     """
     generate indri text file
@@ -82,12 +83,22 @@ def gene_indri_text_file(file_path,texts):
     text_template = Template("""
     <DOC>
         <DOCNO>$did</DOCNO>
-        <TEXT>$text</TEXT>
+        <TEXT>$text</TEXT>$fields
     </DOC>
     """)
+    field_template = Template("\t<$field_name>$field_text</$field_name>\n")
 
     with codecs.open(file_path, 'w','utf-8') as f:
-        for did in texts:
-            text = texts[did].lower()
-            f.write(text_template.substitute(did=did,text=text))
-
+        if extra_fields is None:
+            for did in texts:
+                text = texts[did].lower()
+                f.write(text_template.substitute(did=did,text=text,fields=""))
+         else:
+            for did in texts:
+                text = texts[did].lower()
+                fields = "\n"
+                for field_name in extra_fields:       
+                    field_text = field_data[did][field_name]
+                    fields += field_template.substitute(field_name=field_name,
+                                        field_text=field_text)
+                f.write(text_template.substitute(did=did,text=text,fields=fields))
