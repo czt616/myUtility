@@ -72,6 +72,33 @@ def gene_indri_index_para_file(corpora,file_path,index_path,memory='2G',stemmer=
 
 
 
+def gene_single_indri_text(did,original_text,extra_fields=None,
+        field_data=None):
+    """generate a text piece for a single document
+
+    """
+     text_template = Template("""
+    <DOC>
+        <DOCNO>$did</DOCNO>
+        <TEXT>$text</TEXT>$fields
+    </DOC>
+    """)
+    field_template = Template("\t<$field_name>$field_text</$field_name>\n")
+    original_text = original_text.lower()
+
+    if extra_fields is None:
+        fields = ""
+    else:
+        text = texts[did].lower()
+        fields = "\n"
+        for field_name in extra_fields:       
+            field_text = field_data[field_name]
+            fields += field_template.substitute(field_name=field_name,
+                                field_text=field_text)
+    single_text = text_template.substitute(did=did,text=original_text,fields=fields)
+    return single_text
+
+
 
 def gene_indri_text_file(file_path,texts,extra_fields=None,
         field_data=None):
@@ -80,25 +107,11 @@ def gene_indri_text_file(file_path,texts,extra_fields=None,
     generate indri text file
     """
 
-    text_template = Template("""
-    <DOC>
-        <DOCNO>$did</DOCNO>
-        <TEXT>$text</TEXT>$fields
-    </DOC>
-    """)
-    field_template = Template("\t<$field_name>$field_text</$field_name>\n")
 
     with codecs.open(file_path, 'w','utf-8') as f:
-        if extra_fields is None:
-            for did in texts:
-                text = texts[did].lower()
-                f.write(text_template.substitute(did=did,text=text,fields=""))
-         else:
-            for did in texts:
-                text = texts[did].lower()
-                fields = "\n"
-                for field_name in extra_fields:       
-                    field_text = field_data[did][field_name]
-                    fields += field_template.substitute(field_name=field_name,
-                                        field_text=field_text)
-                f.write(text_template.substitute(did=did,text=text,fields=fields))
+        for did in texts:
+            if extra_fields is None:
+                single_text = gene_single_indri_text(did,texts[did])
+            else:
+                single_text = gene_single_indri_text(did,texts[did],extra_fields,field_data[did])
+            f.write(single_text+"\n")
