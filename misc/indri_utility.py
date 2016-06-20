@@ -9,8 +9,8 @@ import codecs
 
 query_template = Template("""
 <query>
-    <number>$qid</number>
-    <text>$q_string</text>
+\t<number>$qid</number>
+\t<text>$q_string</text>
 </query>
 """)
 
@@ -35,15 +35,15 @@ $corpora
 
 corpus_template = Template("""
 <corpus>
-  <path>$path</path>
-  <class>trectext</class>
+\t<path>$path</path>
+\t<class>trectext</class>
 </corpus>
 """)
 
 text_template = Template("""
 <DOC>
-    <DOCNO>$did</DOCNO>
-    <TEXT>$text</TEXT>$fields
+\t<DOCNO>$did</DOCNO>
+\t<TEXT>$text</TEXT>$fields
 </DOC>
 """)
 
@@ -92,21 +92,21 @@ def gene_single_indri_text(did,original_text,extra_fields=None,
     
     field_template = Template("\t<$field_name>$field_text</$field_name>\n")
     original_text = original_text.lower()
-
-    if extra_fields is None:
-        fields = ""
-    else:
-        text = texts[did].lower()
-        lan = langid.classify(text)[0]
-        if lan != 'en':
-            return None
-        fields = "\n"
-        for field_name in extra_fields:       
-            field_text = field_data[field_name]
-            fields += field_template.substitute(field_name=field_name,
-                                field_text=field_text)
-    single_text = text_template.substitute(did=did,text=original_text,fields=fields)
-    return single_text
+    lan = langid.classify(original_text)[0]
+    if lan != 'en':
+        return None
+    else:    
+        if extra_fields is None:
+            fields = ""
+        else:
+            
+            fields = "\n"
+            for field_name in extra_fields:       
+                field_text = field_data[field_name]
+                fields += field_template.substitute(field_name=field_name,
+                                    field_text=field_text)
+        single_text = text_template.substitute(did=did,text=original_text,fields=fields)
+        return single_text
 
 
 
