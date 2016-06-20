@@ -4,6 +4,7 @@ generate indri files
 
 
 from string import Template
+import langid
 import codecs
 
 query_template = Template("""
@@ -96,6 +97,9 @@ def gene_single_indri_text(did,original_text,extra_fields=None,
         fields = ""
     else:
         text = texts[did].lower()
+        lan = langid.classify(text)[0]
+        if lan != 'en':
+            return None
         fields = "\n"
         for field_name in extra_fields:       
             field_text = field_data[field_name]
@@ -120,4 +124,5 @@ def gene_indri_text_file(file_path,texts,extra_fields=None,
                 single_text = gene_single_indri_text(did,texts[did])
             else:
                 single_text = gene_single_indri_text(did,texts[did],extra_fields,field_data[did])
-            f.write(single_text+"\n")
+            if single_text is not None:
+                f.write(single_text+"\n")
