@@ -6,27 +6,53 @@ generate indri files
 from string import Template
 import codecs
 
+query_template = Template("""
+<query>
+    <number>$qid</number>
+    <text>$q_string</text>
+</query>
+""")
+
+structure_template = Template("""
+<parameters>
+<index>$index</index>
+<trecFormat>true</trecFormat>
+<runID>$run_id</runID>
+<count>$count</count>
+$query_body
+</parameters>
+""")
+
+index_para_template = Template("""
+<parameters>
+<index>$index_path</index>
+<memory>$memory</memory>
+$corpora
+<stemmer><name>$stemmer</name></stemmer>
+</parameters>
+""")
+
+corpus_template = Template("""
+<corpus>
+  <path>$path</path>
+  <class>trectext</class>
+</corpus>
+""")
+
+text_template = Template("""
+<DOC>
+    <DOCNO>$did</DOCNO>
+    <TEXT>$text</TEXT>$fields
+</DOC>
+""")
+
 def gene_indri_query_file(file_path,queries,index,count,run_id="Infolab"):
 
     """
     generate indri query
     """
 
-    query_template = Template("""
-    <query>
-        <number>$qid</number>
-        <text>$q_string</text>
-    </query>
-    """)
-    structure_template = Template("""
-    <parameters>
-    <index>$index</index>
-    <trecFormat>true</trecFormat>
-    <runID>$run_id</runID>
-    <count>$count</count>
-    $query_body
-    </parameters>
-    """)
+
 
     query_body = ""
     for qid in queries:
@@ -37,22 +63,7 @@ def gene_indri_query_file(file_path,queries,index,count,run_id="Infolab"):
 
 
 def gene_indri_index_para_file(corpora,file_path,index_path,memory='2G',stemmer='porter'):
-    index_para_template = Template("""
-    <parameters>
-    <index>$index_path</index>
-    <memory>$memory</memory>
-    $corpora
-    <stemmer><name>$stemmer</name></stemmer>
-    </parameters>
-    """)
-    
 
-    corpus_template = Template("""
-    <corpus>
-      <path>$path</path>
-      <class>trectext</class>
-    </corpus>
-    """)
     
     
     if isinstance(memory,int):
@@ -77,12 +88,7 @@ def gene_single_indri_text(did,original_text,extra_fields=None,
     """generate a text piece for a single document
 
     """
-    text_template = Template("""
-    <DOC>
-        <DOCNO>$did</DOCNO>
-        <TEXT>$text</TEXT>$fields
-    </DOC>
-    """)
+    
     field_template = Template("\t<$field_name>$field_text</$field_name>\n")
     original_text = original_text.lower()
 
