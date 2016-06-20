@@ -5,7 +5,8 @@ from my_exception import DebugStop
 
 __all__ = [
     "crawl_url", 
-    "gene_indri_query_file", 
+    "gene_indri_query_file",
+    "gene_single_indri_text", 
     "gene_indri_text_file",
     "gene_indri_index_para_file",
     "do_stem",
