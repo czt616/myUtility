@@ -77,7 +77,7 @@ def gene_single_indri_text(did,original_text,extra_fields=None,
     """generate a text piece for a single document
 
     """
-     text_template = Template("""
+    text_template = Template("""
     <DOC>
         <DOCNO>$did</DOCNO>
         <TEXT>$text</TEXT>$fields
