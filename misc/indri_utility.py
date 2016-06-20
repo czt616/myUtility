@@ -21,8 +21,7 @@ structure_template = Template("""
 <runID>$run_id</runID>
 <count>$count</count>
 $query_body
-</parameters>
-""")
+</parameters>""")
 
 index_para_template = Template("""
 <parameters>
@@ -30,8 +29,7 @@ index_para_template = Template("""
 <memory>$memory</memory>
 $corpora
 <stemmer><name>$stemmer</name></stemmer>
-</parameters>
-""")
+</parameters>""")
 
 corpus_template = Template("""
 <corpus>
@@ -44,8 +42,7 @@ text_template = Template("""
 <DOC>
 \t<DOCNO>$did</DOCNO>
 \t<TEXT>$text</TEXT>$fields
-</DOC>
-""")
+</DOC>""")
 
 def gene_indri_query_file(file_path,queries,index,count,run_id="Infolab"):
 
