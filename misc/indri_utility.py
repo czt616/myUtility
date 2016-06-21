@@ -72,8 +72,11 @@ def gene_indri_index_para_file(corpora_list,file_path,index_path,memory='2G',ste
 
 
     corpora = ""
-    for corpus_path in corpora_list:
-        corpora += corpus_template.substitute(path=corpus_path)
+    if isinstance(corpora_list,str):
+        corpora = corpus_template.substitute(path=corpora_list)
+    else:
+        for corpus_path in corpora_list:
+            corpora += corpus_template.substitute(path=corpus_path)
 
     with codecs.open(file_path, 'w','utf-8') as f:
         f.write(index_para_template.substitute(index_path=index_path,
