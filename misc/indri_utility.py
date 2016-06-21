@@ -60,7 +60,7 @@ def gene_indri_query_file(file_path,queries,index,count,run_id="Infolab"):
         f.write(structure_template.substitute(query_body=query_body,index=index,run_id=run_id,count=str(count)))
 
 
-def gene_indri_index_para_file(corpora,file_path,index_path,memory='2G',stemmer='porter'):
+def gene_indri_index_para_file(corpora_list,file_path,index_path,memory='2G',stemmer='porter'):
 
     
     
@@ -72,7 +72,7 @@ def gene_indri_index_para_file(corpora,file_path,index_path,memory='2G',stemmer=
 
 
     corpora = ""
-    for corpus_path in corpora:
+    for corpus_path in corpora_list:
         corpora += corpus_template.substitute(path=corpus_path)
 
     with codecs.open(file_path, 'w','utf-8') as f:
