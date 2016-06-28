@@ -3,7 +3,14 @@ model related code
 """
 
 import re
-from myStemmer import pstem as stem 
+import warnings
+try:
+    from myStemmer import pstem as stem
+except ImportError:
+    def stem(input):
+        return input
+    warnings.warn("No module myStemmer in this machine!")
+
 from ..misc import do_stem
 from corpusexceptions import *
 import math
