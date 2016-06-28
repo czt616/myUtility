@@ -21,6 +21,7 @@ structure_template = Template("""
 <runID>$run_id</runID>
 <count>$count</count>
 $query_body
+$rule
 </parameters>""")
 
 index_para_template = Template("""
@@ -44,7 +45,7 @@ text_template = Template("""
 \t<TEXT>$text</TEXT>$fields
 </DOC>""")
 
-def gene_indri_query_file(file_path,queries,index,count,run_id="Infolab"):
+def gene_indri_query_file(file_path,queries,index,count,run_id="Infolab",rule=None):
 
     """
     generate indri query
@@ -53,11 +54,18 @@ def gene_indri_query_file(file_path,queries,index,count,run_id="Infolab"):
 
 
     query_body = ""
+    if rule is None:
+        rule = ""
+    else:
+        rule = "<rule>%s</rule>" %rule
     for qid in queries:
-        query_body+=query_template.substitute(qid=qid,q_string=queries[qid].lower())
+        query_body+=query_template.substitute(
+            qid=qid,q_string=queries[qid].lower())
 
     with codecs.open(file_path, 'w','utf-8') as f:
-        f.write(structure_template.substitute(query_body=query_body,index=index,run_id=run_id,count=str(count)))
+        f.write(structure_template.substitute(query_body=query_body,index=index,
+                                              run_id=run_id,count=str(count),
+                                              rule=rule))
 
 
 def gene_indri_index_para_file(corpora_list,file_path,index_path,memory='2G',stemmer='porter'):
