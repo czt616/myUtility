@@ -4,11 +4,17 @@ try:
 except ImportError:
     def resource_filename(package_or_requirement, resource_name):
         return os.path.join(os.path.dirname(__file__), resource_name)
-from myStemmer import pstem as stem
+
 import re
 import json
 import os
-
+import warnings
+try:
+    from myStemmer import pstem as stem
+except ImportError:
+    def stem(input):
+        return input
+    warnings.warn("No module myStemmer in this machine!")
 
 DATA_DIR = resource_filename('myUtility.misc','data')
 
