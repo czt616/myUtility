@@ -6,6 +6,7 @@ generate indri files
 from string import Template
 import langid
 import codecs
+import re
 
 query_template = Template("""
 <query>
