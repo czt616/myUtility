@@ -59,8 +59,10 @@ def gene_indri_query_file(file_path,queries,index,count,run_id="Infolab",rule=No
     else:
         rule = "<rule>%s</rule>" %rule
     for qid in queries:
+        q_string = queries[qid].lower()
+        q_string = re.sub("[^\w]"," ",q_string)
         query_body+=query_template.substitute(
-            qid=qid,q_string=queries[qid].lower())
+            qid=qid,q_string=q_string)
 
     with codecs.open(file_path, 'w','utf-8') as f:
         f.write(structure_template.substitute(query_body=query_body,index=index,
