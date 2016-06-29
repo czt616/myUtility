@@ -4,7 +4,7 @@ generate indri files
 
 
 from string import Template
-from myUtility.misc import get_stopwords
+from other import get_stopwords
 import langid
 import codecs
 import re
