@@ -4,9 +4,11 @@ generate indri files
 
 
 from string import Template
+from myUtility.misc import get_stopwords
 import langid
 import codecs
 import re
+
 
 query_template = Template("""
 <query>
@@ -23,6 +25,7 @@ structure_template = Template("""
 <count>$count</count>
 $query_body
 $rule
+$stopper
 </parameters>""")
 
 index_para_template = Template("""
@@ -31,6 +34,7 @@ index_para_template = Template("""
 <memory>$memory</memory>
 $corpora
 <stemmer><name>$stemmer</name></stemmer>
+$stopper
 </parameters>""")
 
 corpus_template = Template("""
@@ -46,7 +50,7 @@ text_template = Template("""
 \t<TEXT>$text</TEXT>$fields
 </DOC>""")
 
-def gene_indri_query_file(file_path,queries,index,count,run_id="Infolab",rule=None):
+def gene_indri_query_file(file_path,queries,index,count,run_id="Infolab",rule=None,use_stopper=False):
 
     """
     generate indri query
@@ -59,6 +63,16 @@ def gene_indri_query_file(file_path,queries,index,count,run_id="Infolab",rule=No
         rule = ""
     else:
         rule = "<rule>%s</rule>" %rule
+
+    if use_stopper:
+        stopper = "<stopper>\n"
+        stopwords = get_stopwords()
+        for stopword in stopwords:
+            stopper += "<word>%s</word>\n" %stopword 
+        stopper += "</stopper>"
+    else:
+        stopper = ""
+
     for qid in queries:
         q_string = queries[qid].lower()
         q_string = re.sub("[^\w]"," ",q_string)
@@ -68,10 +82,10 @@ def gene_indri_query_file(file_path,queries,index,count,run_id="Infolab",rule=No
     with codecs.open(file_path, 'w','utf-8') as f:
         f.write(structure_template.substitute(query_body=query_body,index=index,
                                               run_id=run_id,count=str(count),
-                                              rule=rule))
+                                              rule=rule,stopper=stopper))
 
 
-def gene_indri_index_para_file(corpora_list,file_path,index_path,memory='2G',stemmer='porter'):
+def gene_indri_index_para_file(corpora_list,file_path,index_path,memory='2G',stemmer='porter',use_stopper=False):
 
     
     
@@ -88,10 +102,20 @@ def gene_indri_index_para_file(corpora_list,file_path,index_path,memory='2G',ste
     else:
         for corpus_path in corpora_list:
             corpora += corpus_template.substitute(path=corpus_path)
+    if use_stopper:
+        stopper = "<stopper>\n"
+        stopwords = get_stopwords()
+        for stopword in stopwords:
+            stopper += "<word>%s</word>\n" %stopword 
+        stopper += "</stopper>"
+    else:
+        stopper = ""
 
     with codecs.open(file_path, 'w','utf-8') as f:
-        f.write(index_para_template.substitute(index_path=index_path,
-            memory=memory,corpora=corpora,stemmer=stemmer))
+        f.write(index_para_template.substitute(
+                index_path=index_path,
+                memory=memory,corpora=corpora,
+                stemmer=stemmer,stopper=stopper))
 
 
 

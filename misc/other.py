@@ -18,6 +18,9 @@ except ImportError:
 
 DATA_DIR = resource_filename('myUtility.misc','data')
 
+def get_stopwords():
+    return json.load(open(os.path.join(DATA_DIR,'stopwords.json'))).keys()
+
 
 def rm_stopword(m):
     r = ""
