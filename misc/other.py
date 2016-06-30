@@ -8,6 +8,7 @@ except ImportError:
 import re
 import json
 import os
+import copy
 import warnings
 try:
     from myStemmer import pstem as stem
@@ -41,23 +42,37 @@ class Stopword_Handler(object):
         if not name:
             self.name = os.path.join(DATA_DIR,'stopwords.json')
         self.stopwords = json.load(open(self.name))
-        
-    def remove_stopwords_from_string(self,text_string):
+    
+    def remove_stopwords(self,input_data):
+        if isinstance(input_data,str):
+            return self._remove_stopwords_from_string(input_data)
+        elif isinstance(input_data,list):
+            return self._remove_stopwords_from_list(input_data)
+        elif isinstance(input_data,dict):
+            return  self._remove_stopwords_from_dict(input_data)
+        else:
+            raise TypeError("Does not support type %s" %(type(input_data)))
+
+    def _remove_stopwords_from_string(self,text_string):
+        temp_data = text_string
         for w in self.stopwords:
-            text_string = re.sub("(^|[^\w])"+w+"([^\w]|$)",rm_stopword,text_string,flags=re.I)
+            temp_data = re.sub("(^|[^\w])"+w+"([^\w]|$)",rm_stopword,temp_data,flags=re.I)
             
 
-        return text_string
+        return temp_data
 
 
-    def remove_stopwords_from_list(self,text_list):
+    def _remove_stopwords_from_list(self,text_list):
+        temp_data = text_list[:]
+
         for w in self.stopwords:
-            while w in text_list:
-                text_list.remove(w)
-        return text_list
+            while w in temp_data:
+                temp_data.remove(w)
+        return temp_data
 
-    def remove_stopwords_from_dict(self,text_dict):
-        for w in text_dict.keys():
+    def _remove_stopwords_from_dict(self,text_dict):
+        temp_data = copy.deepcopy(text_dict)
+        for w in temp_data.keys():
             if w in stopwords:
-                text_dict.pop(w,None)
-        return text_dict
+                temp_data.pop(w,None)
+        return temp_data
