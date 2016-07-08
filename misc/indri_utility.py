@@ -17,6 +17,7 @@ query_template = Template("""
 </query>
 """)
 
+
 structure_template = Template("""
 <parameters>
 <index>$index</index>
@@ -34,6 +35,7 @@ index_para_template = Template("""
 <memory>$memory</memory>
 $corpora
 <stemmer><name>$stemmer</name></stemmer>
+$fields
 $stopper
 </parameters>""")
 
@@ -50,7 +52,7 @@ text_template = Template("""
 \t<TEXT>$text</TEXT>$fields
 </DOC>""")
 
-def gene_indri_query_file(file_path,queries,index,count,run_id="Infolab",rule=None,use_stopper=False):
+def gene_indri_query_file(file_path,queries,index,count,run_id="Infolab",rule=None,use_stopper=False,date=None):
 
     """
     generate indri query
@@ -76,6 +78,13 @@ def gene_indri_query_file(file_path,queries,index,count,run_id="Infolab",rule=No
     for qid in queries:
         q_string = queries[qid].lower()
         q_string = re.sub("[^\w]"," ",q_string)
+        if date:
+            when = date["when"]
+            if when is not in ["dateafter","datebefore", "datebetween"]:
+                raise ValueError("When value %s is not supported" %(when))
+            date_value = date["value"]
+            q_string = "#filrej(#%s(%s) #combine(%s))" %(when,date_value,q_string)
+
         query_body+=query_template.substitute(
             qid=qid,q_string=q_string)
 
@@ -85,7 +94,7 @@ def gene_indri_query_file(file_path,queries,index,count,run_id="Infolab",rule=No
                                               rule=rule,stopper=stopper))
 
 
-def gene_indri_index_para_file(corpora_list,file_path,index_path,memory='2G',stemmer='porter',use_stopper=False):
+def gene_indri_index_para_file(corpora_list,file_path,index_path,memory='2G',stemmer='porter',use_stopper=False,field_data=None):
 
     
     
@@ -111,11 +120,21 @@ def gene_indri_index_para_file(corpora_list,file_path,index_path,memory='2G',ste
     else:
         stopper = ""
 
+    fields = ""
+    if field_data:
+        for field in field_data:
+            single_field = ""
+            for tag in field:
+                single_field += "\t<%s>%s</%s>\n" %(tag,field[tag],tag)
+            single_field = "<%s>\n%s</%s>\n" %("field",single_field,"field")
+            fileds += single_field
+
     with codecs.open(file_path, 'w','utf-8') as f:
         f.write(index_para_template.substitute(
                 index_path=index_path,
                 memory=memory,corpora=corpora,
-                stemmer=stemmer,stopper=stopper))
+                stemmer=stemmer,stopper=stopper,
+                fields=fields))
 
 
 
