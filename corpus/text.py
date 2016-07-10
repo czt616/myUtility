@@ -6,7 +6,7 @@ Text class
 import re
 import warnings
 from model import Model
-from ..misc import do_stem,Stopword_Handler
+from myUtility.misc import do_stem,Stopword_Handler
 
 class Text(object):
     def __init__(self,text,remove_stopwords=False):
@@ -15,6 +15,9 @@ class Text(object):
         if remove_stopwords:
                 stopword_handler = Stopword_Handler()
                 self._text = stopword_handler.remove_stopwords_from_string(self._text)
+
+    def __str__(self): 
+        return  self._text
 
     @property
     def text(self):

@@ -1,13 +1,17 @@
-from document import Document
-from text import Text
-from sentence import Sentence
-from model import Model
 import corpusexceptions
+from model import Model
+from text import Text
+from document import Document
+from sentence import Sentence
+from query import Query,ExpandedQuery
+
 
 __all__ = [
     "Document",
     "Sentence",
     "Text",
+    "Query",
+    "ExpandedQuery",
     "Model",
     "corpusexceptions",
 ]

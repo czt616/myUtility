@@ -2,7 +2,7 @@
 Sentence class
 """
 
-from ..misc import do_stem
+from myUtility.misc import do_stem
 import re
 from text import Text
 

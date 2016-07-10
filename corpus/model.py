@@ -11,7 +11,7 @@ except ImportError:
         return input
     warnings.warn("No module myStemmer in this machine!")
 
-from ..misc import do_stem
+
 from corpusexceptions import *
 import math
 from collections import Counter
