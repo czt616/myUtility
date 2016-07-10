@@ -25,7 +25,7 @@ class TextFactory(object):
         field_data=None):
         single_document_text = gene_single_indri_text(did,original_text,extra_fields,field_data)
         if single_document_text is not None:
-            self._documents.append()
+            self._documents.append(single_document_text)
 
         
 
