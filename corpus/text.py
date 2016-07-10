@@ -37,7 +37,7 @@ class Text(object):
         try :
             return self._raw_model
         except AttributeError:
-            self._raw_model = Model(text_string=self.text,need_stem = False)
+            self._raw_model = Model(self._no_stopwords,text_string=self.text,need_stem = False)
             return self._raw_model
 
     # @model.setter
