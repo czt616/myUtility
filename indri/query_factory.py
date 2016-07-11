@@ -119,7 +119,7 @@ class IndriQueryFactory(object):
         with codecs.open(file_path, 'w','utf-8') as f:
             f.write(structure_template.substitute(query_body=query_body,index=index,
                                                   run_id=run_id,count=str(self._count),
-                                                  rule=rule,stopper=stopper))
+                                                  rule=rule,stopper=stopper,psr=psr))
 
 
     def gene_query_with_date_filter(self,file_path,queries,index,
