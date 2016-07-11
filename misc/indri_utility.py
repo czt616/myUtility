@@ -155,14 +155,14 @@ def gene_indri_index_para_file(corpora_list,file_path,index_path,memory='2G',ste
                     raise KeyError
 
                 single_field = "<%s>\n%s</%s>\n" %("field",single_field,"field")
-                fileds += single_field
+                fields += single_field
 
             except KeyError:
                 message = "The structure of the field data isn't right\n"
                 message += "correct structure:\n"
                 message += "\t{name: field_name\n"
                 message += "\t{type: field_type(numeric/date/text)\n"
-                message += "The input filed is:\n%s\n" %(field)
+                message += "The input field is:\n%s\n" %(field)
 
                 raise KeyError(message)
 
