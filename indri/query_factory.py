@@ -66,8 +66,8 @@ class IndriQueryFactory(object):
                     original_weight = sinlge_query_data.para_lambda
                     expanding_weight =  1-sinlge_query_data.para_lambda
                     expanding_string = ""
-                    for term in sinlge_query_data.expanding_model:
-                        term_weight = sinlge_query_data.expanding_model[term]
+                    for term in sinlge_query_data.expanding_model.model:
+                        term_weight = sinlge_query_data.expanding_model.model[term]
                         expanding_string += "%f %s " %(term_weight,term)
                 
                     q_string = "#combine(%f #combine(%s) %f #weight(%s) " \
