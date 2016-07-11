@@ -139,10 +139,33 @@ def gene_indri_index_para_file(corpora_list,file_path,index_path,memory='2G',ste
     if field_data:
         for field in field_data:
             single_field = ""
-            for tag in field:
-                single_field += "\t<%s>%s</%s>\n" %(tag,field[tag],tag)
-            single_field = "<%s>\n%s</%s>\n" %("field",single_field,"field")
-            fileds += single_field
+            try:
+                name = field["name"]
+                field_type = field["type"]
+
+
+                single_field = "\t<name>%s</name>\n" %(name,)
+                if field_type == "numeric":
+                    single_field += "\t<numeric>true</numeric>\n"
+                elif field_type == 
+                    single_field += "\t<parserName>DateFieldAnnotator</parserName>\nz"
+                elif field_type == "text":
+                    pass
+                else:
+                    raise KeyError
+
+                single_field = "<%s>\n%s</%s>\n" %("field",single_field,"field")
+                fileds += single_field
+
+            except KeyError:
+                message = "The structure of the field data isn't right\n"
+                message += "correct structure:\n"
+                message += "\t{name: field_name\n"
+                message += "\t{type: field_type(numeric/date/text)\n"
+                message += "The input filed is:\n%s\n" %(field)
+
+                raise KeyError(message)
+
 
     with codecs.open(file_path, 'w','utf-8') as f:
         f.write(index_para_template.substitute(
