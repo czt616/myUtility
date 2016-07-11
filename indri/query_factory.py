@@ -17,9 +17,9 @@ class IndriQueryFactory(object):
     """
     def __init__(self,count,rule=None,
             use_stopper=False,date_when=None,
-            numeric_compare=None):
+            numeric_compare=None, psr=False):
 
-        self._count,self._rule,self._use_stopper = count,rule,use_stopper
+        self._count,self._rule,self._use_stopper,self._psr = count,rule,use_stopper,psr
 
         
 
@@ -37,7 +37,8 @@ class IndriQueryFactory(object):
 
     def _gene_query(self,file_path,queries,index,run_id,
                 date_value=None,numeric_value=None,
-                numeric_field_name=None):
+                numeric_field_name=None,fbDocs=None,
+                fbTerms=None,fbOrigWeight=None):
 
         query_body = ""
         if self._rule is None:
@@ -104,6 +105,14 @@ class IndriQueryFactory(object):
                 q_string = "#filrej(#%s(%s %d) %s)" %(self._numeric_compare,
                                             numeric_field_name,numeric_value,q_string)
 
+            psr = ""
+            if self._psr :
+                if not (fbDocs and fbTerms and fbOrigWeight):
+                    raise ValueError("need valid fbDocs and fbTerms and fbOrigWeight!")
+                psr += "<fbDocs>%d</fbDocs>" %(fbDocs)
+                psr += "<fbTerms>%d</fbTerms>" %(fbTerms)
+                psr += "<fbOrigWeight>%f</fbOrigWeight>" %(fbOrigWeight)
+
             query_body+=query_template.substitute(
                 qid=qid,q_string=q_string)
 
@@ -114,14 +123,18 @@ class IndriQueryFactory(object):
 
 
     def gene_query_with_date_filter(self,file_path,queries,index,
-                date_value,run_id="test"):
+                date_value,run_id="test",,fbDocs=None,
+                fbTerms=None,fbOrigWeight=None):
 
-        self._gene_query(file_path,queries,index,run_id,date_value=date_value)
+        self._gene_query(file_path,queries,index,run_id,date_value=date_value,
+                fbDocs=fbDocs,fbTerms=fbTerms,fbOrigWeight=fbOrigWeight)
 
 
     def gene_query_with_numeric_filter(self,file_path,queries,index,
-            numeric_value,numeric_field_name,run_id="test"):
+            numeric_value,numeric_field_name,run_id="test",,fbDocs=None,
+            fbTerms=None,fbOrigWeight=None):
 
         self._gene_query(file_path,queries,index,run_id,numeric_value=numeric_value,
-                numeric_field_name=numeric_field_name)
+                numeric_field_name=numeric_field_name,fbDocs=fbDocs,fbTerms=fbTerms,
+                fbOrigWeight=fbOrigWeight)
 

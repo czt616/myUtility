@@ -18,6 +18,7 @@ structure_template = Template("""
 $query_body
 $rule
 $stopper
+$psr
 </parameters>""")
 
 index_para_template = Template("""

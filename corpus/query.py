@@ -35,8 +35,8 @@ class ExpandedQuery(Query):
     """
 
     __metaclass__ = ABCMeta
-    def __init__(self,qid,query_text,method,para_lambda):
-        self._method,self._para_lambda = method, para_lambda
+    def __init__(self,qid,query_text,para_lambda):
+        self._para_lambda =  para_lambda
         super(ExpandedQuery,self),__init__(qid,query_text)
         self._expanding_model = None
 
@@ -50,9 +50,6 @@ class ExpandedQuery(Query):
             raise RuntimeError("Not expanded yet!")
         return self._expanding_model.raw_model()
 
-    @property
-    def method(self):
-        return self._method
 
     @property
     def para_lambda(self):
