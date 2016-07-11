@@ -34,15 +34,14 @@ class ExpandedQuery(Query):
     """Queries with expansion
     """
 
-    __metaclass__ = ABCMeta
     def __init__(self,qid,query_text,para_lambda):
         self._para_lambda =  para_lambda
         super(ExpandedQuery,self),__init__(qid,query_text)
         self._expanding_model = None
 
-    @abstractmethod
-    def expand(self):
-        pass
+    
+    def expand(self,expanding_term_weights):
+        self._expanding_model = Model(False,text_dict=expanding_term_weights)
 
     @property
     def expanding_model(self):
