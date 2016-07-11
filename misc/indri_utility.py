@@ -148,7 +148,7 @@ def gene_indri_index_para_file(corpora_list,file_path,index_path,memory='2G',ste
                 if field_type == "numeric":
                     single_field += "\t<numeric>true</numeric>\n"
                 elif field_type == "date":
-                    single_field += "\t<parserName>DateFieldAnnotator</parserName>\nz"
+                    single_field += "\t<parserName>DateFieldAnnotator</parserName>\n"
                 elif field_type == "text":
                     pass
                 else:
