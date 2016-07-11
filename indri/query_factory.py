@@ -123,7 +123,7 @@ class IndriQueryFactory(object):
 
 
     def gene_query_with_date_filter(self,file_path,queries,index,
-                date_value,run_id="test",,fbDocs=None,
+                date_value,run_id="test",fbDocs=None,
                 fbTerms=None,fbOrigWeight=None):
 
         self._gene_query(file_path,queries,index,run_id,date_value=date_value,
@@ -131,8 +131,8 @@ class IndriQueryFactory(object):
 
 
     def gene_query_with_numeric_filter(self,file_path,queries,index,
-            numeric_value,numeric_field_name,run_id="test",,fbDocs=None,
-            fbTerms=None,fbOrigWeight=None):
+            numeric_value,numeric_field_name,run_id="test",
+            fbDocs=None,fbTerms=None,fbOrigWeight=None):
 
         self._gene_query(file_path,queries,index,run_id,numeric_value=numeric_value,
                 numeric_field_name=numeric_field_name,fbDocs=fbDocs,fbTerms=fbTerms,
