@@ -126,7 +126,7 @@ class IndriQueryFactory(object):
                 date_value,run_id="test",fbDocs=None,
                 fbTerms=None,fbOrigWeight=None):
 
-        self._gene_query(file_path,queries,index,run_id,date_value=date_value,
+        self._gene_query(file_path,queries,index,run_id=run_id,date_value=date_value,
                 fbDocs=fbDocs,fbTerms=fbTerms,fbOrigWeight=fbOrigWeight)
 
 
