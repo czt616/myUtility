@@ -24,7 +24,7 @@ class IndriQueryFactory(object):
         
 
         if date_when:
-            if date_when not in ["dateafter","datebefore", "datebetween"]:
+            if date_when not in ["dateafter","datebefore", "datebetween","dateequals"]:
                 raise ValueError("When value %s is not supported" %(date_when))
 
         if numeric_compare is not None:
@@ -98,11 +98,11 @@ class IndriQueryFactory(object):
 
             
             if self._date_when:
-                q_string = "#filrej(#%s(%s) %s)" %(self._date_when,date_value,
+                q_string = "#filreq(#%s(%s) %s)" %(self._date_when,date_value,
                                                         q_string)
             
             if self._numeric_compare is not None:
-                q_string = "#filrej(#%s(%s %d) %s)" %(self._numeric_compare,
+                q_string = "#filreq(#%s(%s %d) %s)" %(self._numeric_compare,
                                             numeric_field_name,numeric_value,q_string)
 
             psr = ""
