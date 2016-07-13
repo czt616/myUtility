@@ -17,6 +17,7 @@ class Query(object):
     """
     def __init__(self,qid,query_text):
         self._qid = qid
+        self._text = query_text
         self._text_struct = Text(query_text)
 
     @property
@@ -25,7 +26,7 @@ class Query(object):
 
     @property
     def text(self):
-        return "%s" %self._text_struct
+        return "%s" %self._text
     
 
 
