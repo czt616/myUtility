@@ -70,7 +70,7 @@ class IndriQueryFactory(object):
                         term_weight = sinlge_query_data.expanding_model[term]
                         expanding_string += "%f %s " %(term_weight,term)
                 
-                    q_string = "#combine(%f #combine(%s) %f #weight(%s) " \
+                    q_string = "#weight(%f #combine(%s) %f #weight(%s) " \
                                         %(original_weight,original_text,
                                           expanding_weight,expanding_string)
 
