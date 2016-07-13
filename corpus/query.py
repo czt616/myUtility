@@ -48,7 +48,7 @@ class ExpandedQuery(Query):
     def expanding_model(self):
         if not self._expanding_model:
             raise RuntimeError("Not expanded yet!")
-        return self._expanding_model.mode
+        return self._expanding_model.model
 
 
     @property
