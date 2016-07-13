@@ -37,7 +37,7 @@ class ExpandedQuery(Query):
 
     def __init__(self,qid,query_text,para_lambda):
         self._para_lambda =  para_lambda
-        super(ExpandedQuery,self),__init__(qid,query_text)
+        super(ExpandedQuery,self).__init__(qid,query_text)
         self._expanding_model = None
 
     
