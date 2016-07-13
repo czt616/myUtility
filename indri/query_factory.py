@@ -140,3 +140,6 @@ class IndriQueryFactory(object):
                 numeric_field_name=numeric_field_name,fbDocs=fbDocs,fbTerms=fbTerms,
                 fbOrigWeight=fbOrigWeight)
 
+    def gene_normal_query(self,file_path,queries,index,run_id="test"):
+        
+        self._gene_query(file_path,queries,index,run_id=run_id)
