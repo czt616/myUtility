@@ -72,7 +72,7 @@ class IndriQueryFactory(object):
                     if len(expanding_string) == 0:
                         q_string = "#combine( %s )" %(original_text)
                     else:
-                        q_string = "#weight(%f #combine(%s) %f #weight(%s) " \
+                        q_string = "#weight(%f #combine(%s) %f #weight(%s) )" \
                                         %(original_weight,original_text,
                                           expanding_weight,expanding_string)
 
