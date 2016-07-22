@@ -79,7 +79,7 @@ class IndriQueryFactory(object):
                 else:
                     q_string = "#combine( %s )" %(original_text)
 
-            elif isinstance(sinlge_query_data,str):
+            elif isinstance(sinlge_query_data,str) or isinstance(sinlge_query_data,unicode):
                 q_string = sinlge_query_data.lower()
                 q_string = re.sub("[^\w]"," ",q_string)
                 q_string = "#combine(%s)" %(q_string)
