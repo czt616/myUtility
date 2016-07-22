@@ -34,7 +34,7 @@ index_para_template = Template("""
 <index>$index_path</index>
 <memory>$memory</memory>
 $corpora
-<stemmer><name>$stemmer</name></stemmer>
+$stemmer
 $fields
 $stopper
 </parameters>""")
@@ -167,7 +167,9 @@ def gene_indri_index_para_file(corpora_list,file_path,index_path,memory='2G',ste
 
                 raise KeyError(message)
 
-
+    stemmer_text  = ""
+    if stemmer is not None:
+       stemmer_text =  "<stemmer><name>%s</name></stemmer>"%stemmer
     with codecs.open(file_path, 'w','utf-8') as f:
         f.write(index_para_template.substitute(
                 index_path=index_path,
