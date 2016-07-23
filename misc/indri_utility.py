@@ -174,7 +174,7 @@ def gene_indri_index_para_file(corpora_list,file_path,index_path,memory='2G',ste
         f.write(index_para_template.substitute(
                 index_path=index_path,
                 memory=memory,corpora=corpora,
-                stemmer=stemmer,stopper=stopper,
+                stemmer=stemmer_text,stopper=stopper,
                 fields=fields))
 
 
