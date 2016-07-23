@@ -72,7 +72,7 @@ class IndriQueryFactory(object):
                     if len(expanding_string) == 0:
                         q_string = "#combine( %s )" %(original_text)
                     else:
-                        q_string = "#weight(%f #combine(%s) %f #weight(%s) )" \
+                        q_string = "#weight( %f #combine( %s) %f #weight( %s ) )" \
                                         %(original_weight,original_text,
                                           expanding_weight,expanding_string)
 
@@ -82,11 +82,11 @@ class IndriQueryFactory(object):
             elif isinstance(sinlge_query_data,str) or isinstance(sinlge_query_data,unicode):
                 q_string = sinlge_query_data.lower()
                 q_string = re.sub("[^\w]"," ",q_string)
-                q_string = "#combine(%s)" %(q_string)
+                q_string = "#combine( %s )" %(q_string)
 
             elif isinstance(sinlge_query_data,list):
                 q_string = " ".join(sinlge_query_data)
-                q_string = "#combine(%s)" %(q_string)
+                q_string = "#combine( %s )" %(q_string)
             
             elif isinstance(sinlge_query_data,dict):
                 q_string = ""
@@ -94,17 +94,17 @@ class IndriQueryFactory(object):
                     weight = sinlge_query_data[term]
                     q_string += "%f %s " %(weight,term)
 
-                q_string = "#weight(%s)" %(q_string)
+                q_string = "#weight( %s )" %(q_string)
             else:
                 raise TypeError("unsupported value type %s for query data" %type(sinlge_query_data))
 
             
             if self._date_when:
-                q_string = "#filreq(#%s(%s) %s)" %(self._date_when,date_value,
+                q_string = "#filreq( #%s( %s ) %s)" %(self._date_when,date_value,
                                                         q_string)
             
             if self._numeric_compare is not None:
-                q_string = "#filreq(#%s(%s %d) %s)" %(self._numeric_compare,
+                q_string = "#filreq( #%s( %s %d ) %s)" %(self._numeric_compare,
                                             numeric_field_name,numeric_value,q_string)
 
             psr = ""
