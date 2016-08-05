@@ -4,6 +4,7 @@ model related code
 
 import re
 import warnings
+import math
 try:
     from myStemmer import pstem as stem
 except ImportError:
@@ -175,11 +176,46 @@ class Model(object):
         else:
             self.normalize()
             other.normalize()
-            dis = 0
+            sim = .0
             for w in self._model:
                 if w in other.model:
-                    dis += self._model[w] * other.model[w]
-        return dis
+                    sim += self._model[w] * other.model[w]
+        return sim
+
+    def kl_divergence(self,other):
+        if not isinstance(other, Model):
+            raise TypeError("unsupported operand type(s) for cosine similarity: '%s' and '%s'" %(type(self),type(other)))
+        elif self._need_stem != other._need_stem:
+            raise ValueError(" Two model does not agree with stemming")
+        elif self._no_stopwords != other._no_stopwords:
+            raise ValueError(" Two model does not agree with stopword removal")
+        else:
+            self.normalize()
+            other.normalize()
+            diff = .0
+            for w in self._model:
+                if w in other.model:
+                    diff += other.model[w] * math.log(other.model[w]/self._model[w])
+        return diff
+
+    def set_sim(self,other):
+        if not isinstance(other, Model):
+            raise TypeError("unsupported operand type(s) for cosine similarity: '%s' and '%s'" %(type(self),type(other)))
+        elif self._need_stem != other._need_stem:
+            raise ValueError(" Two model does not agree with stemming")
+        elif self._no_stopwords != other._no_stopwords:
+            raise ValueError(" Two model does not agree with stopword removal")
+        else:
+            self.normalize()
+            other.normalize()
+            common = 0
+
+            for w in self._model:
+                if w in other.model:
+                    common += 1
+            
+            sim = common*1.0/len(set(other.model + self._model))
+        return sim
 
 
     @staticmethod
