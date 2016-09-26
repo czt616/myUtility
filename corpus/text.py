@@ -14,7 +14,7 @@ class Text(object):
         self._no_stopwords = remove_stopwords
         if remove_stopwords:
                 stopword_handler = Stopword_Handler()
-                self._text = stopword_handler.remove_stopwords_from_string(self._text)
+                self._text = stopword_handler.remove_stopwords(self._text)
 
     def __str__(self): 
         return  self._text

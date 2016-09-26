@@ -4,7 +4,7 @@ from text import Text
 from document import Document
 from sentence import Sentence
 from query import Query,ExpandedQuery
-
+from configuration import Configuration
 
 __all__ = [
     "Document",
@@ -14,4 +14,5 @@ __all__ = [
     "ExpandedQuery",
     "Model",
     "corpusexceptions",
+    "Configuration"
 ]

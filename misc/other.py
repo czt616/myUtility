@@ -44,7 +44,7 @@ class Stopword_Handler(object):
         self.stopwords = json.load(open(self.name))
     
     def remove_stopwords(self,input_data):
-        if isinstance(input_data,str):
+        if isinstance(input_data,str) or isinstance(input_data,unicode):
             return self._remove_stopwords_from_string(input_data)
         elif isinstance(input_data,list):
             return self._remove_stopwords_from_list(input_data)

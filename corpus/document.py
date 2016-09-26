@@ -16,7 +16,7 @@ class Document(Text):
     def __init__(self,did,file_path=None,text=None,sentences=None,remove_stopwords=False):
         if self.validate_input(file_path=file_path,text=text,sentences=sentences):
             self._text = ""
-            self._no_stopwords = remove_stopwords
+            self._remove_stopwords = remove_stopwords
             if file_path:
                 with codecs.open(file_path,'r','utf-8') as f:
                     self._text = f.read()

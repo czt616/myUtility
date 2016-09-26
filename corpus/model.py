@@ -20,10 +20,10 @@ from collections import Counter
 class Model(object):
 
 
-    def __init__(self,no_stopwords,text_string=None, text_list=None, text_dict=None,
+    def __init__(self,remove_stopwords,text_string=None, text_list=None, text_dict=None,
         need_stem = False, input_stemmed = False):
         self._need_stem = need_stem
-        self._no_stopwords = no_stopwords
+        self._remove_stopwords = remove_stopwords
         self._model = Counter()
         self._normalized = False
         if text_string or text_list or text_dict:
@@ -37,14 +37,14 @@ class Model(object):
 
         elif self._need_stem != other._need_stem:
             raise ValueError(" Two model does not agree with stemming")
-        elif self._no_stopwords != other._no_stopwords:
+        elif self._remove_stopwords != other._remove_stopwords:
             raise ValueError(" Two model does not agree with stopword removal")
         else:
             if self._need_stem:
-                new_obj = Model(self._no_stopwords,text_dict=self.model,need_stem=self._need_stem,input_stemmed=True)
+                new_obj = Model(self._remove_stopwords,text_dict=self.model,need_stem=self._need_stem,input_stemmed=True)
                 new_obj.update(text_dict = other.model, input_stemmed=True)
             else:
-                new_obj = Model(self._no_stopwords,text_dict=self.model,need_stem=self._need_stem)
+                new_obj = Model(self._remove_stopwords,text_dict=self.model,need_stem=self._need_stem)
                 new_obj.update(text_dict = other.model)
         return new_obj
 
@@ -54,9 +54,9 @@ class Model(object):
             raise TypeError("type %s not supported" %type(other))
         else:
             if self._need_stem:
-                new_obj = Model(self._no_stopwords,text_dict=self.model,need_stem=self._need_stem,input_stemmed=True)
+                new_obj = Model(self._remove_stopwords,text_dict=self.model,need_stem=self._need_stem,input_stemmed=True)
             else:
-                new_obj = Model(self._no_stopwords,text_dict=self.model,need_stem=self._need_stem)
+                new_obj = Model(self._remove_stopwords,text_dict=self.model,need_stem=self._need_stem)
             for w in new_obj._model:
                 new_obj._model[w] *= other
         return new_obj
@@ -171,7 +171,7 @@ class Model(object):
             raise TypeError("unsupported operand type(s) for cosine similarity: '%s' and '%s'" %(type(self),type(other)))
         elif self._need_stem != other._need_stem:
             raise ValueError(" Two model does not agree with stemming")
-        elif self._no_stopwords != other._no_stopwords:
+        elif self._remove_stopwords != other._remove_stopwords:
             raise ValueError(" Two model does not agree with stopword removal")
         else:
             self.normalize()
@@ -187,7 +187,7 @@ class Model(object):
             raise TypeError("unsupported operand type(s) for cosine similarity: '%s' and '%s'" %(type(self),type(other)))
         elif self._need_stem != other._need_stem:
             raise ValueError(" Two model does not agree with stemming")
-        elif self._no_stopwords != other._no_stopwords:
+        elif self._remove_stopwords != other._remove_stopwords:
             raise ValueError(" Two model does not agree with stopword removal")
         else:
             self.normalize()
@@ -203,7 +203,7 @@ class Model(object):
             raise TypeError("unsupported operand type(s) for cosine similarity: '%s' and '%s'" %(type(self),type(other)))
         elif self._need_stem != other._need_stem:
             raise ValueError(" Two model does not agree with stemming")
-        elif self._no_stopwords != other._no_stopwords:
+        elif self._remove_stopwords != other._remove_stopwords:
             raise ValueError(" Two model does not agree with stopword removal")
         else:
             self.normalize()
@@ -230,6 +230,13 @@ class Model(object):
             return False
 
 
+    
+    def to_dirichlet(self):
+    # convert to dirichlet distribution
+        self._normalized = False
+        s = sum(self._model.values())
+        for w in self._model:
+            self._model[w] /= s*1.0      
 
 
     def normalize(self): 
