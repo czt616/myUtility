@@ -186,7 +186,6 @@ def gene_single_indri_text(did,original_text,extra_fields=None,
     """
     
     field_template = Template("\t<$field_name>$field_text</$field_name>\n")
-    original_text = original_text.lower()
     lan = langid.classify(original_text)[0]
     if lan != 'en':
         return None
