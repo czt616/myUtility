@@ -29,7 +29,7 @@ class Html_parser(object):
             soup = BeautifulSoup(raw_html,"lxml")
             for script in soup(["script", "style"]):
                 script.extract()    # rip it out
-            text = re.sub("\s+"," ",soup.get_text())
+            text = soup.get_text()
         except lxml.etree.ParserError as e:
             return None
 
